@@ -1,28 +1,31 @@
 class Solution {
     public int maximumBeauty(int[] nums, int k) {
-        if (nums.length == 1)
-            return 1;
-
-        int maxBeauty = 0;
+        int n = nums.length;
         int maxValue = 0;
-
-        for (int num : nums)
-            maxValue = Math.max(maxValue, num);
-
-        int[] count = new int[maxValue + 1];
-
-        for (int num : nums) {
-            count[Math.max(num - k, 0)]++;
-            count[Math.min(num + k + 1, maxValue)]--;
+        // Step 1: Find the maximum value in the array
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > maxValue) {
+                maxValue = nums[i];
+            }
         }
-
-        int currentSum = 0;
-
-        for (int val : count) {
-            currentSum += val;
-            maxBeauty = Math.max(maxBeauty, currentSum);
+        // Step 2: Create an array to track ranges
+        int[] range = new int[maxValue + 10];
+        // Step 3: Mark ranges for each number in the array
+        for (int i = 0; i < n; i++) {
+            int left = Math.max(0, nums[i] - k);
+            int right = Math.min(maxValue, nums[i] + k) + 1;
+            range[left]++;
+            range[right]--;
         }
-
-        return maxBeauty;
+        // Step 4: Calculate prefix sums and find the maximum value
+        int result = range[0];
+        for (int i = 1; i < range.length; i++) {
+            range[i] += range[i - 1];
+            if (range[i] > result) {
+                result = range[i];
+            }
+        }
+        // Step 5: Return the result
+        return result;
     }
 }
