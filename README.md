@@ -1,2 +1,2 @@
 # MyLeetCodeSolutions
-It contains all my leetcode solution using Java
+It contains all my leetcode solutions and daily challenges solved using Java
